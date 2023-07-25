@@ -14,7 +14,7 @@
 
 * [Документация](http://mordor.ratmir.fun/docs/)
 * [Примеры](./examples)
-* [Официальная тема на форуме](https://github.com/python273/vk_api/issues/356)
+* [Официальная тема на форуме](https://forum.mordor-rp.com/index.php?threads/568385/)
 
 # Подключение и работа с биоблиотекой
 ```python
