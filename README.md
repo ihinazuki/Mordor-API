@@ -14,9 +14,9 @@
 
 * [Документация](http://mordor.ratmir.fun/docs/)
 * [Примеры](./examples)
-* [Официальная тема на форуме](https://github.com/python273/vk_api/issues/356) (асинхронность; боты)
+* [Официальная тема на форуме](https://github.com/python273/vk_api/issues/356)
 
-#Подключение и работа с биоблиотекой
+# Подключение и работа с биоблиотекой
 ```python
 import mordor_api
 
