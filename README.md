@@ -7,7 +7,26 @@
   <img alt="code-style" src="https://img.shields.io/badge/code--style-black-%23000000" />
   <img alt="The Unlicense" src="https://img.shields.io/badge/license-The%20Unlicense-blue" />
   <img alt="mordor Badge" src="https://img.shields.io/badge/samp-Mordor%20RP-%20?color=%23fc2323">
-
-  <h1 align="center">  Mordor API </h1>
-  <p align="center">Упрощение работы с api для форума Mordor RP</p>
 </p>
+
+<h1 align="center">  Mordor API </h1>
+<p align="center">Готовый api для форума Mordor RP</p>
+
+* [Документация](http://mordor.ratmir.fun/docs/)
+* [Примеры](./examples)
+* [Официальная тема на форуме](https://github.com/python273/vk_api/issues/356) (асинхронность; боты)
+
+#Подключение и работа с биоблиотекой
+```python
+import mordor_api
+
+cookies = {
+    "xf_user": "your",
+    "cf_clearance": "your",
+    "xf_session": "your",
+    "xf_csrf": "your",
+}
+user_agents = "your"
+
+api = mordor_api.MordorAPI(user_agent=user_agents, cookie=cookies)
+```
