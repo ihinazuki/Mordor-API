@@ -8,5 +8,5 @@
   <img alt="The Unlicense" src="https://img.shields.io/badge/license-The%20Unlicense-blue" />
   <img alt="mordor Badge" src="https://img.shields.io/badge/samp-Mordor%20RP-%20?color=%23fc2323">
 
-  <h1 align="center">  Mordor API API </h1>
+  <h1 align="center">  Mordor RP API </h1>
 </p>
