@@ -533,3 +533,37 @@ class MordorAPI:
             "delete_avatar": 1
         }
         return self.session.post(f"{MAIN_URL}?account/avatar", files=file_dict, data=data)
+
+    def get_member_thread(self, member_id: int):
+        """
+        • Получить темы пользовителя •
+        ➤Принимает параметры:
+            member_id - ID пользовителя
+        ➤ Возвращает массив:
+        {
+            "member_id": int,
+            "pages_count": int
+        }
+        """
+        content = BeautifulSoup(self.session.get(f"{MAIN_URL}?search/member&user_id={member_id}&content=thread").content, 'html.parser')
+        try: pages_count = int(content.find_all('li', {'class': 'pageNav-page'})[-1].text)
+        except IndexError: pages_count = 1
+        return {"member_id": member_id, "pages_count": pages_count}
+    
+    def get_member_threads(self, member_id: int, page: int = 1):
+        """
+        • Возвращает ID всех тем пользовителя •
+        ➤Принимает параметры:
+            member_id - ID пользовителя
+            page - номер страницы
+        Возвращает массив:
+        """
+
+        soup = BeautifulSoup(self.session.get(f"{MAIN_URL}?search/member&user_id={member_id}&content=thread").content, "html.parser")
+        url = soup.find('meta', attrs={'property': 'og:url'}).get('content', '')
+        soupcontent = BeautifulSoup(self.session.get(f"{url}&page={page}").content, "html.parser")
+        result = []
+        for thread in soupcontent.find_all('li', class_='block-row--separated'):
+            link = thread.find('h3', class_='contentRow-title').find('a')['href']
+            result.append(int(re.findall(r'\d+', urllib.parse.unquote(link))[-1]))
+        return result
