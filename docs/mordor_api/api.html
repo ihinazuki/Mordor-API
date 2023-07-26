@@ -17,7 +17,11 @@
         <label id="navtoggle" for="togglestate" class="pdoc-button"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke-linecap='round' stroke="currentColor" stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg></label>
         <input id="togglestate" type="checkbox" aria-hidden="true" tabindex="-1">
         <div>
-            <img src="http://mordor.ratmir.fun/docs/logo2.png" class="logo" alt="project logo"/>
+            <img src="http://mordor.ratmir.fun/docs/logo1.png" class="logo" alt="project logo"/>
+
+
+
+
             <h2>API Documentation</h2>
                 <ul class="memberlist">
             <li>
@@ -119,13 +123,19 @@
                         <li>
                                 <a class="function" href="#MordorAPI.delete_avatar">delete_avatar</a>
                         </li>
+                        <li>
+                                <a class="function" href="#MordorAPI.get_member_thread">get_member_thread</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#MordorAPI.get_member_threads">get_member_threads</a>
+                        </li>
                 </ul>
 
             </li>
     </ul>
 
 
-            <footer>Mordor API v1 | by hinazuki</footer>
+            <footer>Mordor API v1.1 | by hinazuki</footer>
 </div>
     </nav>
     <main class="pdoc">
@@ -673,6 +683,40 @@ mordor_api<wbr>.api    </h1>
 </span><span id="L-533"><a href="#L-533"><span class="linenos">533</span></a>            <span class="s2">&quot;delete_avatar&quot;</span><span class="p">:</span> <span class="mi">1</span>
 </span><span id="L-534"><a href="#L-534"><span class="linenos">534</span></a>        <span class="p">}</span>
 </span><span id="L-535"><a href="#L-535"><span class="linenos">535</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MAIN_URL</span><span class="si">}</span><span class="s2">?account/avatar&quot;</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">file_dict</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</span><span id="L-536"><a href="#L-536"><span class="linenos">536</span></a>
+</span><span id="L-537"><a href="#L-537"><span class="linenos">537</span></a>    <span class="k">def</span> <span class="nf">get_member_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="L-538"><a href="#L-538"><span class="linenos">538</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-539"><a href="#L-539"><span class="linenos">539</span></a><span class="sd">        • Получить темы пользовителя •</span>
+</span><span id="L-540"><a href="#L-540"><span class="linenos">540</span></a><span class="sd">        ➤Принимает параметры:</span>
+</span><span id="L-541"><a href="#L-541"><span class="linenos">541</span></a><span class="sd">            member_id - ID пользовителя</span>
+</span><span id="L-542"><a href="#L-542"><span class="linenos">542</span></a><span class="sd">        ➤ Возвращает массив:</span>
+</span><span id="L-543"><a href="#L-543"><span class="linenos">543</span></a><span class="sd">        {</span>
+</span><span id="L-544"><a href="#L-544"><span class="linenos">544</span></a><span class="sd">            &quot;member_id&quot;: int,</span>
+</span><span id="L-545"><a href="#L-545"><span class="linenos">545</span></a><span class="sd">            &quot;pages_count&quot;: int</span>
+</span><span id="L-546"><a href="#L-546"><span class="linenos">546</span></a><span class="sd">        }</span>
+</span><span id="L-547"><a href="#L-547"><span class="linenos">547</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-548"><a href="#L-548"><span class="linenos">548</span></a>        <span class="n">content</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MAIN_URL</span><span class="si">}</span><span class="s2">?search/member&amp;user_id=</span><span class="si">{</span><span class="n">member_id</span><span class="si">}</span><span class="s2">&amp;content=thread&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+</span><span id="L-549"><a href="#L-549"><span class="linenos">549</span></a>        <span class="k">try</span><span class="p">:</span> <span class="n">pages_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;pageNav-page&#39;</span><span class="p">})[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="L-550"><a href="#L-550"><span class="linenos">550</span></a>        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span> <span class="n">pages_count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-551"><a href="#L-551"><span class="linenos">551</span></a>        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;member_id&quot;</span><span class="p">:</span> <span class="n">member_id</span><span class="p">,</span> <span class="s2">&quot;pages_count&quot;</span><span class="p">:</span> <span class="n">pages_count</span><span class="p">}</span>
+</span><span id="L-552"><a href="#L-552"><span class="linenos">552</span></a>    
+</span><span id="L-553"><a href="#L-553"><span class="linenos">553</span></a>    <span class="k">def</span> <span class="nf">get_member_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+</span><span id="L-554"><a href="#L-554"><span class="linenos">554</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-555"><a href="#L-555"><span class="linenos">555</span></a><span class="sd">        • Возвращает ID всех тем пользовителя •</span>
+</span><span id="L-556"><a href="#L-556"><span class="linenos">556</span></a><span class="sd">        ➤Принимает параметры:</span>
+</span><span id="L-557"><a href="#L-557"><span class="linenos">557</span></a><span class="sd">            member_id - ID пользовителя</span>
+</span><span id="L-558"><a href="#L-558"><span class="linenos">558</span></a><span class="sd">            page - номер страницы</span>
+</span><span id="L-559"><a href="#L-559"><span class="linenos">559</span></a><span class="sd">        Возвращает массив:</span>
+</span><span id="L-560"><a href="#L-560"><span class="linenos">560</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-561"><a href="#L-561"><span class="linenos">561</span></a>
+</span><span id="L-562"><a href="#L-562"><span class="linenos">562</span></a>        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MAIN_URL</span><span class="si">}</span><span class="s2">?search/member&amp;user_id=</span><span class="si">{</span><span class="n">member_id</span><span class="si">}</span><span class="s2">&amp;content=thread&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+</span><span id="L-563"><a href="#L-563"><span class="linenos">563</span></a>        <span class="n">url</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;property&#39;</span><span class="p">:</span> <span class="s1">&#39;og:url&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span id="L-564"><a href="#L-564"><span class="linenos">564</span></a>        <span class="n">soupcontent</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&amp;page=</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+</span><span id="L-565"><a href="#L-565"><span class="linenos">565</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="L-566"><a href="#L-566"><span class="linenos">566</span></a>        <span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">soupcontent</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;block-row--separated&#39;</span><span class="p">):</span>
+</span><span id="L-567"><a href="#L-567"><span class="linenos">567</span></a>            <span class="n">link</span> <span class="o">=</span> <span class="n">thread</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;h3&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;contentRow-title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span>
+</span><span id="L-568"><a href="#L-568"><span class="linenos">568</span></a>            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+&#39;</span><span class="p">,</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="n">link</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+</span><span id="L-569"><a href="#L-569"><span class="linenos">569</span></a>        <span class="k">return</span> <span class="n">result</span>
 </span></pre></div>
 
 
@@ -1228,6 +1272,40 @@ mordor_api<wbr>.api    </h1>
 </span><span id="MordorAPI-534"><a href="#MordorAPI-534"><span class="linenos">534</span></a>            <span class="s2">&quot;delete_avatar&quot;</span><span class="p">:</span> <span class="mi">1</span>
 </span><span id="MordorAPI-535"><a href="#MordorAPI-535"><span class="linenos">535</span></a>        <span class="p">}</span>
 </span><span id="MordorAPI-536"><a href="#MordorAPI-536"><span class="linenos">536</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MAIN_URL</span><span class="si">}</span><span class="s2">?account/avatar&quot;</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">file_dict</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</span><span id="MordorAPI-537"><a href="#MordorAPI-537"><span class="linenos">537</span></a>
+</span><span id="MordorAPI-538"><a href="#MordorAPI-538"><span class="linenos">538</span></a>    <span class="k">def</span> <span class="nf">get_member_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="MordorAPI-539"><a href="#MordorAPI-539"><span class="linenos">539</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="MordorAPI-540"><a href="#MordorAPI-540"><span class="linenos">540</span></a><span class="sd">        • Получить темы пользовителя •</span>
+</span><span id="MordorAPI-541"><a href="#MordorAPI-541"><span class="linenos">541</span></a><span class="sd">        ➤Принимает параметры:</span>
+</span><span id="MordorAPI-542"><a href="#MordorAPI-542"><span class="linenos">542</span></a><span class="sd">            member_id - ID пользовителя</span>
+</span><span id="MordorAPI-543"><a href="#MordorAPI-543"><span class="linenos">543</span></a><span class="sd">        ➤ Возвращает массив:</span>
+</span><span id="MordorAPI-544"><a href="#MordorAPI-544"><span class="linenos">544</span></a><span class="sd">        {</span>
+</span><span id="MordorAPI-545"><a href="#MordorAPI-545"><span class="linenos">545</span></a><span class="sd">            &quot;member_id&quot;: int,</span>
+</span><span id="MordorAPI-546"><a href="#MordorAPI-546"><span class="linenos">546</span></a><span class="sd">            &quot;pages_count&quot;: int</span>
+</span><span id="MordorAPI-547"><a href="#MordorAPI-547"><span class="linenos">547</span></a><span class="sd">        }</span>
+</span><span id="MordorAPI-548"><a href="#MordorAPI-548"><span class="linenos">548</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="MordorAPI-549"><a href="#MordorAPI-549"><span class="linenos">549</span></a>        <span class="n">content</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MAIN_URL</span><span class="si">}</span><span class="s2">?search/member&amp;user_id=</span><span class="si">{</span><span class="n">member_id</span><span class="si">}</span><span class="s2">&amp;content=thread&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+</span><span id="MordorAPI-550"><a href="#MordorAPI-550"><span class="linenos">550</span></a>        <span class="k">try</span><span class="p">:</span> <span class="n">pages_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;pageNav-page&#39;</span><span class="p">})[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="MordorAPI-551"><a href="#MordorAPI-551"><span class="linenos">551</span></a>        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span> <span class="n">pages_count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="MordorAPI-552"><a href="#MordorAPI-552"><span class="linenos">552</span></a>        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;member_id&quot;</span><span class="p">:</span> <span class="n">member_id</span><span class="p">,</span> <span class="s2">&quot;pages_count&quot;</span><span class="p">:</span> <span class="n">pages_count</span><span class="p">}</span>
+</span><span id="MordorAPI-553"><a href="#MordorAPI-553"><span class="linenos">553</span></a>    
+</span><span id="MordorAPI-554"><a href="#MordorAPI-554"><span class="linenos">554</span></a>    <span class="k">def</span> <span class="nf">get_member_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+</span><span id="MordorAPI-555"><a href="#MordorAPI-555"><span class="linenos">555</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="MordorAPI-556"><a href="#MordorAPI-556"><span class="linenos">556</span></a><span class="sd">        • Возвращает ID всех тем пользовителя •</span>
+</span><span id="MordorAPI-557"><a href="#MordorAPI-557"><span class="linenos">557</span></a><span class="sd">        ➤Принимает параметры:</span>
+</span><span id="MordorAPI-558"><a href="#MordorAPI-558"><span class="linenos">558</span></a><span class="sd">            member_id - ID пользовителя</span>
+</span><span id="MordorAPI-559"><a href="#MordorAPI-559"><span class="linenos">559</span></a><span class="sd">            page - номер страницы</span>
+</span><span id="MordorAPI-560"><a href="#MordorAPI-560"><span class="linenos">560</span></a><span class="sd">        Возвращает массив:</span>
+</span><span id="MordorAPI-561"><a href="#MordorAPI-561"><span class="linenos">561</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="MordorAPI-562"><a href="#MordorAPI-562"><span class="linenos">562</span></a>
+</span><span id="MordorAPI-563"><a href="#MordorAPI-563"><span class="linenos">563</span></a>        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MAIN_URL</span><span class="si">}</span><span class="s2">?search/member&amp;user_id=</span><span class="si">{</span><span class="n">member_id</span><span class="si">}</span><span class="s2">&amp;content=thread&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+</span><span id="MordorAPI-564"><a href="#MordorAPI-564"><span class="linenos">564</span></a>        <span class="n">url</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;property&#39;</span><span class="p">:</span> <span class="s1">&#39;og:url&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span id="MordorAPI-565"><a href="#MordorAPI-565"><span class="linenos">565</span></a>        <span class="n">soupcontent</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&amp;page=</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+</span><span id="MordorAPI-566"><a href="#MordorAPI-566"><span class="linenos">566</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="MordorAPI-567"><a href="#MordorAPI-567"><span class="linenos">567</span></a>        <span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">soupcontent</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;block-row--separated&#39;</span><span class="p">):</span>
+</span><span id="MordorAPI-568"><a href="#MordorAPI-568"><span class="linenos">568</span></a>            <span class="n">link</span> <span class="o">=</span> <span class="n">thread</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;h3&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;contentRow-title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span>
+</span><span id="MordorAPI-569"><a href="#MordorAPI-569"><span class="linenos">569</span></a>            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+&#39;</span><span class="p">,</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="n">link</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+</span><span id="MordorAPI-570"><a href="#MordorAPI-570"><span class="linenos">570</span></a>        <span class="k">return</span> <span class="n">result</span>
 </span></pre></div>
 
 
@@ -2490,6 +2568,87 @@ mordor_api<wbr>.api    </h1>
 
 
             <div class="docstring"><p>• Удалить аватарку •</p>
+</div>
+
+
+                            </div>
+                            <div id="MordorAPI.get_member_thread" class="classattr">
+                                        <input id="MordorAPI.get_member_thread-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_member_thread</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">member_id</span><span class="p">:</span> <span class="nb">int</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="MordorAPI.get_member_thread-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#MordorAPI.get_member_thread"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MordorAPI.get_member_thread-538"><a href="#MordorAPI.get_member_thread-538"><span class="linenos">538</span></a>    <span class="k">def</span> <span class="nf">get_member_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="MordorAPI.get_member_thread-539"><a href="#MordorAPI.get_member_thread-539"><span class="linenos">539</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="MordorAPI.get_member_thread-540"><a href="#MordorAPI.get_member_thread-540"><span class="linenos">540</span></a><span class="sd">        • Получить темы пользовителя •</span>
+</span><span id="MordorAPI.get_member_thread-541"><a href="#MordorAPI.get_member_thread-541"><span class="linenos">541</span></a><span class="sd">        ➤Принимает параметры:</span>
+</span><span id="MordorAPI.get_member_thread-542"><a href="#MordorAPI.get_member_thread-542"><span class="linenos">542</span></a><span class="sd">            member_id - ID пользовителя</span>
+</span><span id="MordorAPI.get_member_thread-543"><a href="#MordorAPI.get_member_thread-543"><span class="linenos">543</span></a><span class="sd">        ➤ Возвращает массив:</span>
+</span><span id="MordorAPI.get_member_thread-544"><a href="#MordorAPI.get_member_thread-544"><span class="linenos">544</span></a><span class="sd">        {</span>
+</span><span id="MordorAPI.get_member_thread-545"><a href="#MordorAPI.get_member_thread-545"><span class="linenos">545</span></a><span class="sd">            &quot;member_id&quot;: int,</span>
+</span><span id="MordorAPI.get_member_thread-546"><a href="#MordorAPI.get_member_thread-546"><span class="linenos">546</span></a><span class="sd">            &quot;pages_count&quot;: int</span>
+</span><span id="MordorAPI.get_member_thread-547"><a href="#MordorAPI.get_member_thread-547"><span class="linenos">547</span></a><span class="sd">        }</span>
+</span><span id="MordorAPI.get_member_thread-548"><a href="#MordorAPI.get_member_thread-548"><span class="linenos">548</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="MordorAPI.get_member_thread-549"><a href="#MordorAPI.get_member_thread-549"><span class="linenos">549</span></a>        <span class="n">content</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MAIN_URL</span><span class="si">}</span><span class="s2">?search/member&amp;user_id=</span><span class="si">{</span><span class="n">member_id</span><span class="si">}</span><span class="s2">&amp;content=thread&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+</span><span id="MordorAPI.get_member_thread-550"><a href="#MordorAPI.get_member_thread-550"><span class="linenos">550</span></a>        <span class="k">try</span><span class="p">:</span> <span class="n">pages_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;pageNav-page&#39;</span><span class="p">})[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span id="MordorAPI.get_member_thread-551"><a href="#MordorAPI.get_member_thread-551"><span class="linenos">551</span></a>        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span> <span class="n">pages_count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="MordorAPI.get_member_thread-552"><a href="#MordorAPI.get_member_thread-552"><span class="linenos">552</span></a>        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;member_id&quot;</span><span class="p">:</span> <span class="n">member_id</span><span class="p">,</span> <span class="s2">&quot;pages_count&quot;</span><span class="p">:</span> <span class="n">pages_count</span><span class="p">}</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>• Получить темы пользовителя •
+➤Принимает параметры:
+    member_id - ID пользовителя
+➤ Возвращает массив:
+{
+    "member_id": int,
+    "pages_count": int
+}</p>
+</div>
+
+
+                            </div>
+                            <div id="MordorAPI.get_member_threads" class="classattr">
+                                        <input id="MordorAPI.get_member_threads-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_member_threads</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">member_id</span><span class="p">:</span> <span class="nb">int</span>, </span><span class="param"><span class="n">page</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="MordorAPI.get_member_threads-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#MordorAPI.get_member_threads"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MordorAPI.get_member_threads-554"><a href="#MordorAPI.get_member_threads-554"><span class="linenos">554</span></a>    <span class="k">def</span> <span class="nf">get_member_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+</span><span id="MordorAPI.get_member_threads-555"><a href="#MordorAPI.get_member_threads-555"><span class="linenos">555</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="MordorAPI.get_member_threads-556"><a href="#MordorAPI.get_member_threads-556"><span class="linenos">556</span></a><span class="sd">        • Возвращает ID всех тем пользовителя •</span>
+</span><span id="MordorAPI.get_member_threads-557"><a href="#MordorAPI.get_member_threads-557"><span class="linenos">557</span></a><span class="sd">        ➤Принимает параметры:</span>
+</span><span id="MordorAPI.get_member_threads-558"><a href="#MordorAPI.get_member_threads-558"><span class="linenos">558</span></a><span class="sd">            member_id - ID пользовителя</span>
+</span><span id="MordorAPI.get_member_threads-559"><a href="#MordorAPI.get_member_threads-559"><span class="linenos">559</span></a><span class="sd">            page - номер страницы</span>
+</span><span id="MordorAPI.get_member_threads-560"><a href="#MordorAPI.get_member_threads-560"><span class="linenos">560</span></a><span class="sd">        Возвращает массив:</span>
+</span><span id="MordorAPI.get_member_threads-561"><a href="#MordorAPI.get_member_threads-561"><span class="linenos">561</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="MordorAPI.get_member_threads-562"><a href="#MordorAPI.get_member_threads-562"><span class="linenos">562</span></a>
+</span><span id="MordorAPI.get_member_threads-563"><a href="#MordorAPI.get_member_threads-563"><span class="linenos">563</span></a>        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MAIN_URL</span><span class="si">}</span><span class="s2">?search/member&amp;user_id=</span><span class="si">{</span><span class="n">member_id</span><span class="si">}</span><span class="s2">&amp;content=thread&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+</span><span id="MordorAPI.get_member_threads-564"><a href="#MordorAPI.get_member_threads-564"><span class="linenos">564</span></a>        <span class="n">url</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;property&#39;</span><span class="p">:</span> <span class="s1">&#39;og:url&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span id="MordorAPI.get_member_threads-565"><a href="#MordorAPI.get_member_threads-565"><span class="linenos">565</span></a>        <span class="n">soupcontent</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&amp;page=</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+</span><span id="MordorAPI.get_member_threads-566"><a href="#MordorAPI.get_member_threads-566"><span class="linenos">566</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="MordorAPI.get_member_threads-567"><a href="#MordorAPI.get_member_threads-567"><span class="linenos">567</span></a>        <span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">soupcontent</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;block-row--separated&#39;</span><span class="p">):</span>
+</span><span id="MordorAPI.get_member_threads-568"><a href="#MordorAPI.get_member_threads-568"><span class="linenos">568</span></a>            <span class="n">link</span> <span class="o">=</span> <span class="n">thread</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;h3&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;contentRow-title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span>
+</span><span id="MordorAPI.get_member_threads-569"><a href="#MordorAPI.get_member_threads-569"><span class="linenos">569</span></a>            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+&#39;</span><span class="p">,</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="n">link</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+</span><span id="MordorAPI.get_member_threads-570"><a href="#MordorAPI.get_member_threads-570"><span class="linenos">570</span></a>        <span class="k">return</span> <span class="n">result</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>• Возвращает ID всех тем пользовителя •
+➤Принимает параметры:
+    member_id - ID пользовителя
+    page - номер страницы
+Возвращает массив:</p>
 </div>
 
 
