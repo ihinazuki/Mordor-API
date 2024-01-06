@@ -1,7 +1,7 @@
 <p align="center">
-  <a href="http://f0734753.xsph.ru/ratmir/mordor/docs/"><img alt="apimordor" src="http://f0734753.xsph.ru/ratmir/mordor/docs/logo1.png" width="500" height="200" /></a>
+  <a href="http://hinazuki.ru/mordor/docs/"><img alt="apimordor" src="http://f0734753.xsph.ru/ratmir/mordor/docs/logo1.png" width="500" height="200" /></a>
   <br><br>
-  <a href="http://f0734753.xsph.ru/ratmir/mordor/docs/index.html"><img height="20" alt="apimordor documentation" src="https://img.shields.io/badge/docs-ratmir.fun-%20"></a>
+  <a href="http://hinazuki.ru/mordor/docs/"><img height="20" alt="apimordor documentation" src="https://img.shields.io/badge/docs-ratmir.fun-%20"></a>
   <img alt="Version" src="https://img.shields.io/badge/version-beta-blue" />
   <img alt="Python 3.7+" src="https://img.shields.io/badge/Python-3.7+-%23FFD242" />
   <img alt="code-style" src="https://img.shields.io/badge/code--style-black-%23000000" />
