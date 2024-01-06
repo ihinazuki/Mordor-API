@@ -101,6 +101,8 @@ class MordorAPI:
             if result_text:
                 if result_text == "Профиль этого пользователя недоступен.":
                     return result_text
+                elif result_text == "Этот пользователь ограничил доступ к своему профилю.":
+                    return result_text
                 else:
                     username = content.find('h1', class_='memberHeader-name').text.strip()
                     user_title = content.find('span', {'class': 'userTitle'}).text
@@ -206,6 +208,7 @@ class MordorAPI:
 
         content = BeautifulSoup(self.session.get(f"{MAIN_URL}?threads/{thread_id}/page-1").content, 'html.parser')
         creator = self.get_member(int(content.find('a', {'class': 'username'})['data-user-id']))
+        username = content.find('span', class_=re.compile('username--*')).text
         category = self.get_category(int(content.find('html')['data-container-key'].strip('node-')))
         create_date = int(content.find('time')['data-time'])
         try: title = [i for i in content.find('h1', {'class': 'p-title-value'}).strings][-1]
@@ -219,7 +222,7 @@ class MordorAPI:
         is_closed = False
         if content.find('dl', {'class': 'blockStatus'}): is_closed = True
         thread_post_id = content.find('article', {'id': re.compile('js-post-*')})['id'].strip('js-post-')
-        return {"thread_id": thread_id, "creator": creator, "category": category, "create_date": create_date, "title": title, "prefix": prefix, "thread_content_html": thread_content_html, "thread_content": thread_content, "pages_count": pages_count, "is_closed": is_closed, "thread_post_id": thread_post_id}
+        return {"thread_id": thread_id, "username": username, "creator": creator, "category": category, "create_date": create_date, "title": title, "prefix": prefix, "thread_content_html": thread_content_html, "thread_content": thread_content, "pages_count": pages_count, "is_closed": is_closed, "thread_post_id": thread_post_id}
     
     def get_post(self, post_id: int):
         """Найти пост по ID
